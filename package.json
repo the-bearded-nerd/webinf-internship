@@ -62,7 +62,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "stylelint": "npx stylelint \"**/*.css\"",
-    "task1": "node ./scripts/stylelintignoreCompress"
+    "task1": "node ./scripts/stylelintignoreCompress", 
+    "task2": "node ./scripts/stylelintignorePatchFiles"
   },
   "eslintConfig": {
     "extends": [
