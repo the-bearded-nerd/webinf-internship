@@ -1,27 +1,10 @@
 const stylelint = require('stylelint');
-const path = require('path');
 const fs = require('fs/promises');
-
-const PATH_TO_STYLELINTCONFIG_FILE = path.resolve(
-  __dirname,
-  '..',
-  '.stylelintrc.json'
-);
-const PATH_TO_STYLELINTIGNORE_FILE = path.resolve(
-  __dirname,
-  '..',
-  '.stylelintignore'
-);
-
-const notDisabledGlobally = async (fileName) => {
-  const fileContent = await fs.readFile(fileName, 'utf-8');
-  return !fileContent.startsWith('/* stylelint-disable */');
-};
-
-const asyncFilter = async (arr, predicate) => {
-  const results = await Promise.all(arr.map(predicate));
-  return arr.filter((_, index) => results[index]);
-};
+const {
+  PATH_TO_STYLELINTCONFIG_FILE,
+  PATH_TO_STYLELINTIGNORE_FILE,
+} = require('./constants');
+const { asyncFilter, notDisabledGlobally } = require('./utils');
 
 const getDisableText = (rule) => {
   let disableText = `/* stylelint-disable-next-line ${rule}, */`;

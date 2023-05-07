@@ -1,33 +1,16 @@
 const stylelint = require('stylelint');
-const path = require('path');
 const fs = require('fs/promises');
-
-const PATH_TO_STYLELINTIGNORE_FILE = path.resolve(
-  __dirname,
-  '..',
-  '.stylelintignore'
-);
-const PATH_TO_STYLELINTCONFIG_FILE = path.resolve(
-  __dirname,
-  '..',
-  '.stylelintrc.json'
-);
-
-const asyncFilter = async (arr, predicate) => {
-  const results = await Promise.all(arr.map(predicate));
-  return arr.filter((_, index) => results[index]);
-};
+const {
+  PATH_TO_STYLELINTCONFIG_FILE,
+  PATH_TO_STYLELINTIGNORE_FILE,
+} = require('./constants');
+const { asyncFilter, notDisabledGlobally } = require('./utils');
 
 const hasMatch = (originalPath, paths) => {
   const pathRegexp = new RegExp(
     originalPath.replaceAll('.', '\\.').replaceAll('*', '.*')
   );
   return paths.some((path) => path.match(pathRegexp));
-};
-
-const notDisabledGlobally = async (fileName) => {
-  const fileContent = await fs.readFile(fileName, 'utf-8');
-  return !fileContent.startsWith('/* stylelint-disable */');
 };
 
 const doWork = async () => {
